@@ -11,15 +11,14 @@
 #
 
 class Comment < ApplicationRecord
-  validates(:commenter, { :presence => true })
+  validates(:commenter, {:presence => true })
+  validates(:photo, {:presence => true })
 
   def commenter
-    my_author_id = self.author_id
+    return User.where({ :id => self.author_id }).at(0)
+  end
 
-    matching_users = User.where({ :id => my_author_id })
-
-    the_user = matching_users.at(0)
-
-    return the_user
+  def photo
+    return Photo.where({ :id => self.photo_id }).at(0)
   end
 end
